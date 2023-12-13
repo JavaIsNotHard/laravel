@@ -31,4 +31,7 @@ Route::post('/user/{id}', [HomeController::class, 'update']);
 Route::get('user/delete/{id}', [HomeController::class, 'delete']);
 
 // Route::get('/user/{id}', [HomeController::class, 'delete']);
+Route::get('logout', [HomeController::class, 'logout']);
 
+Route::get('profile', [HomeController::class, 'profile']);
+Route::post('profile/{id}', [HomeController::class, 'profile_update']);
