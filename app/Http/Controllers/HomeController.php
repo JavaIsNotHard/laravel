@@ -85,14 +85,20 @@ class HomeController extends Controller {
     }
 
     public function profile_update(Request $request, $id) {
+        $user = User::find($id);
+
         $validated = $request->validate([
-            'email' => 'required|unique:users|email',
+            'email' => 'required|unique:users,email,' .$user->id,
             'name' => 'required|min:5',
         ]);
-        $user = User::find($id);
+
         $user->name = request('name');
         $user->email = request('email');
-        $user->password = request('password');
+
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->input('password'));
+        }
+
         $user->save();
         return redirect('home');
     }
