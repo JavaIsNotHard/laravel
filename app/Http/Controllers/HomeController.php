@@ -72,4 +72,28 @@ class HomeController extends Controller {
         $user->delete();
         return redirect('users');
     }
+
+    public function logout() {
+        \Auth::logout();
+        return redirect('login');
+    }
+
+    public function profile() {
+        $id = auth()->user()->id;
+        $user = User::find($id);
+        return view('profile', compact('user'));
+    }
+
+    public function profile_update(Request $request, $id) {
+        $validated = $request->validate([
+            'email' => 'required|unique:users|email',
+            'name' => 'required|min:5',
+        ]);
+        $user = User::find($id);
+        $user->name = request('name');
+        $user->email = request('email');
+        $user->password = request('password');
+        $user->save();
+        return redirect('home');
+    }
 }
