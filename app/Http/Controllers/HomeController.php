@@ -32,10 +32,10 @@ class HomeController extends Controller {
         return view("register");
     }
 
-    public function store() {
-        request()->validate([
-            'name' => 'required',
-            'email' => 'required'
+    public function store(Request $request) {
+        $validated = $request->validate([
+            'email' => 'required|unique:users|email',
+            'name' => 'required|min:5',
         ]);
         $user = new User;
         $user->name = request('name');
